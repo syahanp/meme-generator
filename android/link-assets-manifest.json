@@ -1,0 +1,49 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/inter/Inter-Bold.ttf",
+      "sha1": "327abbf74a5d71ffa8d888d976234cb11dabf194"
+    },
+    {
+      "path": "assets/fonts/inter/Inter-Medium.ttf",
+      "sha1": "3b9f3360ca812f2076db0bfc8bed4cfdd951e74f"
+    },
+    {
+      "path": "assets/fonts/inter/Inter-Regular.ttf",
+      "sha1": "b9984093c0b2b612da5e58e4d4e1ba8c255353dc"
+    },
+    {
+      "path": "assets/fonts/inter/OFL.txt",
+      "sha1": "920edb2544c263295f5ad745c5d49c8296280538"
+    },
+    {
+      "path": "assets/fonts/inter/README.txt",
+      "sha1": "114b2501fcd25146e07ea951a089223d464a86d0"
+    },
+    {
+      "path": "assets/fonts/poppins/Poppins-Bold.ttf",
+      "sha1": "875cf0cecd647bcf22e79d633d868c1b1ec98dfa"
+    },
+    {
+      "path": "assets/fonts/poppins/Poppins-Medium.ttf",
+      "sha1": "283f21b44efbdbf276ba802be2d949a36bbc4233"
+    },
+    {
+      "path": "assets/fonts/poppins/Poppins-Regular.ttf",
+      "sha1": "fdd3002e7d814ee47c1c1b8487c72c6bbb3a2d00"
+    },
+    {
+      "path": "assets/fonts/playfair/Playfair-Bold.ttf",
+      "sha1": "37e111e46ccffb9fad20414c0c3fd807a35ac678"
+    },
+    {
+      "path": "assets/fonts/playfair/Playfair-Medium.ttf",
+      "sha1": "8abf9e0f095915543a6e620dabb6da4e3fab2dce"
+    },
+    {
+      "path": "assets/fonts/playfair/Playfair-Regular.ttf",
+      "sha1": "fa8e0f8ff58b5bf3a7d810cdab511214d836965d"
+    }
+  ]
+}
