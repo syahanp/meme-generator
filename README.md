@@ -1,4 +1,4 @@
-[▶️ Watch demo video](https://github.com/your-username/your-repo-name/raw/main/github/preview.mp4)
+[▶️ Watch demo video](https://github.com/syahanp/meme-generator/raw/main/github/preview.mp4)
 
 # Meme Generator
 
