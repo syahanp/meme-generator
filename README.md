@@ -1,3 +1,5 @@
+[▶️ Watch demo video](https://github.com/your-username/your-repo-name/raw/main/github/preview.mp4)
+
 # Meme Generator
 
 An app that allows you to create memes by uploading an image or adding text. Build whatever you want.
