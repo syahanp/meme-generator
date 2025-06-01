@@ -5,15 +5,17 @@ import {
 } from '@gorhom/bottom-sheet';
 import React, { FC } from 'react';
 
-const BottomSheetCustomBackdrop: FC<BottomSheetBackdropProps> = ({
+type Props = BottomSheetBackdropProps & {
+  backgroundColor?: string;
+};
+
+const BottomSheetCustomBackdrop: FC<Props> = ({
   style,
+  backgroundColor = theme.colors.grey[900],
   ...props
 }) => {
   return (
-    <BottomSheetBackdrop
-      {...props}
-      style={[style, { backgroundColor: theme.colors.grey[600] }]}
-    />
+    <BottomSheetBackdrop {...props} style={[style, { backgroundColor }]} />
   );
 };
 

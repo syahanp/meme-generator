@@ -75,13 +75,14 @@ export default [
   {
     rules: {
       'react/function-component-definition': 'off',
-      '@typescript-eslint/no-require-imports': 'off',
+      '@typescript-eslint/no-require-imports': 'off', // must use require because react native need it
       'import-x/extensions': 'off',
       'import-x/no-duplicates': 'off',
       'react/require-default-props': 'off',
       'import-x/prefer-default-export': 'off',
       'react/style-prop-object': 'off', // skia doesn't support style prop
       'arrow-body-style': 'off',
+      'react/no-unstable-nested-components': 'off',
     },
   },
   {

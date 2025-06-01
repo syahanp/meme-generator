@@ -1,33 +1,21 @@
 import Button from '@/components/button';
-import { imagePath } from '@/constants/images';
 import theme from '@/theme';
 import BottomSheet from '@gorhom/bottom-sheet';
 import React, { useRef, useState } from 'react';
-import {
-  Dimensions,
-  FlatList,
-  Image,
-  Pressable,
-  StatusBar,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { Text, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import AppStatusBar from '@/components/app-status-bar';
+import { useNavigation } from '@/navigation/navigation';
 import StartTemplateBottomSheet from './components/start-template-bottom-sheet';
-
-const numColumns = 2;
-const screenWidth = Dimensions.get('window').width;
-const spacing = 8;
-const imageSize = (screenWidth - spacing - 12 * (numColumns + 1)) / numColumns;
+import TemplateGallery from './components/template-gallery';
 
 const HomePage = () => {
+  const navigation = useNavigation();
   const templateConfirmSheetRef = useRef<BottomSheet>(null);
   const [selectedImage, setSelectedImage] = useState('');
 
-  const handleSelectImage = (image: string) => {
+  const handleSelectTemplate = (image: string) => {
     setSelectedImage(image);
     templateConfirmSheetRef.current?.expand();
   };
@@ -37,19 +25,18 @@ const HomePage = () => {
     setSelectedImage('');
   };
 
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  const handleStartBlankCanvas = () => {
+    navigation.navigate('CanvasView');
+  };
+  const handleStartWithTemplate = () => {
+    navigation.navigate('CanvasView', { template: selectedImage });
   };
 
   return (
     <GestureHandlerRootView>
       <SafeAreaProvider>
-        <StatusBar
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-          backgroundColor={backgroundStyle.backgroundColor}
-        />
+        <AppStatusBar />
+
         <View
           style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 16 }}
         >
@@ -66,11 +53,13 @@ const HomePage = () => {
               Welcome to Meme Generator
             </Text>
             <Text style={{ fontSize: 18, color: theme.colors.grey[600] }}>
-              Make your own Meme, uniqiuely yours!
+              Make your own Meme, uniquely yours!
             </Text>
           </View>
 
-          <Button>Start with Blank Canvas</Button>
+          <Button onPress={handleStartBlankCanvas}>
+            Start with Blank Canvas
+          </Button>
 
           <View style={{ paddingVertical: 24 }}>
             <Text
@@ -84,37 +73,14 @@ const HomePage = () => {
             </Text>
           </View>
 
-          <FlatList
-            data={Object.values(imagePath)}
-            keyExtractor={item => item}
-            numColumns={2}
-            renderItem={({ item }) => (
-              <Pressable
-                onPress={() => handleSelectImage(item)}
-                style={{
-                  margin: spacing / 2,
-                }}
-              >
-                <Image
-                  source={item}
-                  resizeMode="contain"
-                  style={{
-                    width: imageSize,
-                    height: imageSize,
-                    borderRadius: 10,
-                    borderWidth: 1,
-                    borderColor: theme.colors.grey[400],
-                  }}
-                />
-              </Pressable>
-            )}
-          />
+          <TemplateGallery onSelectTemplate={handleSelectTemplate} />
         </View>
 
         <StartTemplateBottomSheet
           sheetRef={templateConfirmSheetRef}
-          imgSrc={selectedImage}
+          templateKey={selectedImage}
           onClose={handleCloseSheet}
+          onSubmit={handleStartWithTemplate}
         />
       </SafeAreaProvider>
     </GestureHandlerRootView>

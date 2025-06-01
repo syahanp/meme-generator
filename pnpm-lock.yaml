@@ -11,12 +11,6 @@ importers:
       '@gorhom/bottom-sheet':
         specifier: ^5.1.5
         version: 5.1.5(@types/react-native@0.70.19)(@types/react@19.1.6)(react-native-gesture-handler@2.25.0(react-native@0.79.2(@babel/core@7.27.3)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.6)(react@19.0.0))(react@19.0.0))(react-native-reanimated@3.17.5(@babel/core@7.27.3)(react-native@0.79.2(@babel/core@7.27.3)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.6)(react@19.0.0))(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.3)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.6)(react@19.0.0))(react@19.0.0)
-      '@react-native-community/slider':
-        specifier: ^4.5.7
-        version: 4.5.7
-      '@react-navigation/elements':
-        specifier: ^2.4.3
-        version: 2.4.3(@react-navigation/native@7.1.10(react-native@0.79.2(@babel/core@7.27.3)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.6)(react@19.0.0))(react@19.0.0))(react-native-safe-area-context@5.4.1(react-native@0.79.2(@babel/core@7.27.3)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.6)(react@19.0.0))(react@19.0.0))(react-native@0.79.2(@babel/core@7.27.3)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.6)(react@19.0.0))(react@19.0.0)
       '@react-navigation/native':
         specifier: ^7.1.10
         version: 7.1.10(react-native@0.79.2(@babel/core@7.27.3)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.6)(react@19.0.0))(react@19.0.0)
@@ -44,6 +38,9 @@ importers:
       react-native-gesture-handler:
         specifier: ^2.25.0
         version: 2.25.0(react-native@0.79.2(@babel/core@7.27.3)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.6)(react@19.0.0))(react@19.0.0)
+      react-native-image-picker:
+        specifier: ^8.2.1
+        version: 8.2.1(react-native@0.79.2(@babel/core@7.27.3)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.6)(react@19.0.0))(react@19.0.0)
       react-native-reanimated:
         specifier: ^3.17.5
         version: 3.17.5(@babel/core@7.27.3)(react-native@0.79.2(@babel/core@7.27.3)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.6)(react@19.0.0))(react@19.0.0)
@@ -1091,9 +1088,6 @@ packages:
     resolution: {integrity: sha512-DyKptlG78XPFo7tDod+we5a3R+U9qjyhaVFbOPvH4pFNu5Dehewtol/srl44K6Cszq0aEMlAJZ3juk0W4WnOJA==}
     engines: {node: '>=18'}
     hasBin: true
-
-  '@react-native-community/slider@4.5.7':
-    resolution: {integrity: sha512-WMDDZjNF2Bd8M8TrSqKf5xhM9ikdfCHtSPur64Ow3bB/OVrKufUQZ59NmYdNZNeGPvcHHTsafuYTY8zfZfbchQ==}
 
   '@react-native/assets-registry@0.79.2':
     resolution: {integrity: sha512-5h2Z7/+/HL/0h88s0JHOdRCW4CXMCJoROxqzHqxdrjGL6EBD1DdaB4ZqkCOEVSW4Vjhir5Qb97C8i/MPWEYPtg==}
@@ -3622,6 +3616,12 @@ packages:
       react: '*'
       react-native: '*'
 
+  react-native-image-picker@8.2.1:
+    resolution: {integrity: sha512-FBeGYJGFDjMdGCcyubDJgBAPCQ4L1D3hwLXyUU91jY9ahOZMTbluceVvRmrEKqnDPFJ0gF1NVhJ0nr1nROFLdg==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+
   react-native-is-edge-to-edge@1.1.7:
     resolution: {integrity: sha512-EH6i7E8epJGIcu7KpfXYXiV2JFIYITtq+rVS8uEb+92naMRBdxhTuS8Wn2Q7j9sqyO0B+Xbaaf9VdipIAmGW4w==}
     peerDependencies:
@@ -5600,8 +5600,6 @@ snapshots:
       - supports-color
       - typescript
       - utf-8-validate
-
-  '@react-native-community/slider@4.5.7': {}
 
   '@react-native/assets-registry@0.79.2': {}
 
@@ -8715,6 +8713,11 @@ snapshots:
       '@egjs/hammerjs': 2.0.17
       hoist-non-react-statics: 3.3.2
       invariant: 2.2.4
+      react: 19.0.0
+      react-native: 0.79.2(@babel/core@7.27.3)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.6)(react@19.0.0)
+
+  react-native-image-picker@8.2.1(react-native@0.79.2(@babel/core@7.27.3)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.6)(react@19.0.0))(react@19.0.0):
+    dependencies:
       react: 19.0.0
       react-native: 0.79.2(@babel/core@7.27.3)(@react-native-community/cli@18.0.0(typescript@5.8.3))(@types/react@19.1.6)(react@19.0.0)
 

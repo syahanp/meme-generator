@@ -1,26 +1,29 @@
 import BottomSheetCustomBackdrop from '@/components/bottom-sheet-custom-backdrop';
 import BottomSheetTitle from '@/components/bottom-sheet-title';
 import Button from '@/components/button';
+import { imagePath } from '@/constants/images';
 import theme from '@/theme';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import React, { FC } from 'react';
-import { Image, ScrollView, View } from 'react-native';
+import { Image, ImageSourcePropType, ScrollView, View } from 'react-native';
 
 interface Props {
   sheetRef: React.RefObject<BottomSheet | null>;
-  imgSrc: string;
-  onClose?: () => void;
+  templateKey: string;
+  onClose: () => void;
+  onSubmit: () => void;
 }
 
-const StartTemplateBottomSheet: FC<Props> = ({ sheetRef, imgSrc, onClose }) => {
-  const handleStart = () => {
-    sheetRef.current?.close();
-  };
-
+const StartTemplateBottomSheet: FC<Props> = ({
+  sheetRef,
+  templateKey,
+  onClose,
+  onSubmit,
+}) => {
   return (
     <BottomSheet
       ref={sheetRef}
-      snapPoints={[420]}
+      snapPoints={[430]}
       index={-1}
       enablePanDownToClose
       backdropComponent={BottomSheetCustomBackdrop}
@@ -31,14 +34,18 @@ const StartTemplateBottomSheet: FC<Props> = ({ sheetRef, imgSrc, onClose }) => {
       >
         <BottomSheetTitle
           sheetRef={sheetRef}
-          title="Template"
+          title="Start with Template"
           onClose={onClose}
         />
 
         <BottomSheetView style={{ flexDirection: 'column', gap: 16 }}>
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: 'center', paddingVertical: 8 }}>
             <Image
-              source={imgSrc as any}
+              source={
+                imagePath[
+                  templateKey as keyof typeof imagePath
+                ] as ImageSourcePropType
+              }
               resizeMode="contain"
               style={{
                 height: 260,
@@ -50,7 +57,7 @@ const StartTemplateBottomSheet: FC<Props> = ({ sheetRef, imgSrc, onClose }) => {
             />
           </View>
 
-          <Button onPress={handleStart}>Start With This Template</Button>
+          <Button onPress={onSubmit}>Start With This Template</Button>
         </BottomSheetView>
       </ScrollView>
     </BottomSheet>
