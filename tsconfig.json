@@ -6,6 +6,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*", "index.ts"],
+  "include": ["src/**/*", "index.js"],
   "exclude": ["node_modules", "android", "ios"]
 }
