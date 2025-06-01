@@ -1,4 +1,4 @@
-![Demo](./github/demo.gif)
+![Demo](./github/preview.gif)
 
 # Meme Generator
 
