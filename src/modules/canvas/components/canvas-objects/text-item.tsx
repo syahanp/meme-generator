@@ -8,15 +8,20 @@ import {
   FontStyle,
   SkTextStyle,
 } from '@shopify/react-native-skia';
-import React, { FC, useMemo } from 'react';
-import { SharedValue, useSharedValue } from 'react-native-reanimated';
+import React, { FC, useEffect, useMemo } from 'react';
+import {
+  SharedValue,
+  useDerivedValue,
+  useSharedValue,
+} from 'react-native-reanimated';
+import { textConfig } from '@/constants/canvas-config';
 import { TextObject } from '../../provider/canvas-provider.type';
 
 type TextObjectProps = TextObject & {
-  isSelected: boolean;
   isEditing: boolean;
-  sharedX?: SharedValue<number>;
-  sharedY?: SharedValue<number>;
+  sharedSelectedId: SharedValue<string>;
+  sharedX: SharedValue<number>;
+  sharedY: SharedValue<number>;
 };
 
 const TextItem: FC<TextObjectProps> = ({
@@ -31,8 +36,8 @@ const TextItem: FC<TextObjectProps> = ({
   width,
   sharedX,
   sharedY,
-  isSelected,
   isEditing,
+  sharedSelectedId,
 }) => {
   const customFontMgr = useFonts({
     Poppins: [theme.fontPath.poppins.regular, theme.fontPath.poppins.bold],
@@ -72,15 +77,21 @@ const TextItem: FC<TextObjectProps> = ({
   const translationX = useSharedValue(x);
   const translationY = useSharedValue(y);
 
-  // if shared value is provided, use it
-  const positionX = useMemo(
-    () => sharedX || translationX,
-    [sharedX, translationX],
-  );
-  const positionY = useMemo(
-    () => sharedY || translationY,
-    [sharedY, translationY],
-  );
+  useEffect(() => {
+    translationX.value = x;
+    translationY.value = y;
+  }, [x, y, translationX, translationY]);
+
+  const isSelected = useDerivedValue(() => {
+    return sharedSelectedId.value === id;
+  }).value;
+
+  const positionX = useDerivedValue(() => {
+    return sharedSelectedId.value === id ? sharedX.value : translationX.value;
+  });
+  const positionY = useDerivedValue(() => {
+    return sharedSelectedId.value === id ? sharedY.value : translationY.value;
+  });
 
   if (!paragraph || isEditing) return null;
 
@@ -95,12 +106,15 @@ const TextItem: FC<TextObjectProps> = ({
         <Rect
           x={positionX}
           y={positionY}
-          width={paragraphWidth + 16}
-          height={paragraphHeight + 8}
+          width={paragraphWidth + textConfig.widthPadding}
+          height={paragraphHeight + textConfig.heightPadding}
           color={theme.colors.blue[400]}
           style="stroke"
           strokeWidth={2}
-          transform={[{ translateX: -8 }, { translateY: -4 }]}
+          transform={[
+            { translateX: textConfig.translateX },
+            { translateY: textConfig.translateY },
+          ]}
         />
       )}
 

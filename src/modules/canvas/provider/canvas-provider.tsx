@@ -10,6 +10,7 @@ import React, {
 } from 'react';
 import { generateUUID } from '@/helper/common';
 import { produce } from 'immer';
+import { canvasSpec } from '@/constants/canvas-config';
 import {
   CanvasProviderType,
   GetCanvasObjectReturn,
@@ -22,6 +23,8 @@ const CanvasContextProvider = createContext<CanvasProviderType | undefined>(
   undefined,
 );
 
+const { canvasX, canvasY } = canvasSpec;
+
 interface Props {
   children: React.ReactNode;
   route: CanvasProviderType['route'];
@@ -32,12 +35,13 @@ export const CanvasProvider: FC<Props> = ({ children, route }) => {
   const editSheet = useRef<BottomSheet>(null);
 
   const [editingTextById, setEditingTextById] = useState('');
+  const [textObjects, setTextObjects] = useState<TextObject[]>([]);
+  const [imageObjects, setImageObjects] = useState<ImageObject[]>([]);
+
   const [selectedObject, setSelectedObject] = useState<SelectedObjectType>({
     id: '',
     type: 'text',
   });
-  const [textObjects, setTextObjects] = useState<TextObject[]>([]);
-  const [imageObjects, setImageObjects] = useState<ImageObject[]>([]);
 
   /**
    * Canvas object getter
@@ -134,13 +138,13 @@ export const CanvasProvider: FC<Props> = ({ children, route }) => {
    */
   const addNewText: CanvasProviderType['addNewText'] = useCallback(
     (payload, options) => {
-      const initialCoordinate = Math.floor(Math.random() * (200 - 50 + 1)) + 50;
+      const randomCoord = Math.floor(Math.random() * (100 - 10 + 1)) + 10;
 
       const initSpec: TextObject = {
         type: 'text',
         id: payload?.id || generateUUID(),
-        x: payload?.x || initialCoordinate,
-        y: payload?.y || initialCoordinate,
+        x: payload?.x || canvasX + randomCoord,
+        y: payload?.y || canvasY + randomCoord,
         width: payload?.width || 150,
         height: payload?.height || 40,
         value: payload?.value || 'Text',
@@ -175,14 +179,16 @@ export const CanvasProvider: FC<Props> = ({ children, route }) => {
    */
   const addNewImage: CanvasProviderType['addNewImage'] = useCallback(
     (payload, options) => {
+      const randomCoord = Math.floor(Math.random() * (100 - 10 + 1)) + 10;
+
       const initSpec: ImageObject = {
         type: 'image',
         id: payload?.id || generateUUID(),
-        x: payload?.x || 100,
-        y: payload?.y || 100,
+        x: payload?.x || canvasX + randomCoord,
+        y: payload?.y || canvasY + randomCoord,
         width: payload?.width || 150,
         height: payload?.height || 150,
-        url: payload?.url || 'https://picsum.photos/200/300',
+        url: payload?.url || 'https://placehold.co/150x150?text=image-error',
         opacity: payload?.opacity || 1,
       };
 

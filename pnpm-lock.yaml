@@ -81,9 +81,15 @@ importers:
       '@react-native/babel-preset':
         specifier: 0.79.2
         version: 0.79.2(@babel/core@7.27.3)
+      '@react-native/codegen':
+        specifier: ^0.79.3
+        version: 0.79.3(@babel/core@7.27.3)
       '@react-native/eslint-config':
         specifier: 0.79.2
         version: 0.79.2(eslint@9.27.0)(jest@29.7.0(@types/node@22.15.24))(prettier@3.5.3)(typescript@5.8.3)
+      '@react-native/gradle-plugin':
+        specifier: ^0.79.3
+        version: 0.79.3
       '@react-native/metro-config':
         specifier: 0.79.2
         version: 0.79.2(@babel/core@7.27.3)
@@ -1109,6 +1115,12 @@ packages:
     peerDependencies:
       '@babel/core': '*'
 
+  '@react-native/codegen@0.79.3':
+    resolution: {integrity: sha512-CZejXqKch/a5/s/MO5T8mkAgvzCXgsTkQtpCF15kWR9HN8T+16k0CsN7TXAxXycltoxiE3XRglOrZNEa/TiZUQ==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@babel/core': '*'
+
   '@react-native/community-cli-plugin@0.79.2':
     resolution: {integrity: sha512-E+YEY2dL+68HyR2iahsZdyBKBUi9QyPyaN9vsnda1jNgCjNpSPk2yAF5cXsho+zKK5ZQna3JSeE1Kbi2IfGJbw==}
     engines: {node: '>=18'}
@@ -1139,6 +1151,10 @@ packages:
 
   '@react-native/gradle-plugin@0.79.2':
     resolution: {integrity: sha512-6MJFemrwR0bOT0QM+2BxX9k3/pvZQNmJ3Js5pF/6owsA0cUDiCO57otiEU8Fz+UywWEzn1FoQfOfQ8vt2GYmoA==}
+    engines: {node: '>=18'}
+
+  '@react-native/gradle-plugin@0.79.3':
+    resolution: {integrity: sha512-imfpZLhNBc9UFSzb/MOy2tNcIBHqVmexh/qdzw83F75BmUtLb/Gs1L2V5gw+WI1r7RqDILbWk7gXB8zUllwd+g==}
     engines: {node: '>=18'}
 
   '@react-native/js-polyfills@0.79.2':
@@ -5670,6 +5686,15 @@ snapshots:
       nullthrows: 1.1.1
       yargs: 17.7.2
 
+  '@react-native/codegen@0.79.3(@babel/core@7.27.3)':
+    dependencies:
+      '@babel/core': 7.27.3
+      glob: 7.2.3
+      hermes-parser: 0.25.1
+      invariant: 2.2.4
+      nullthrows: 1.1.1
+      yargs: 17.7.2
+
   '@react-native/community-cli-plugin@0.79.2(@react-native-community/cli@18.0.0(typescript@5.8.3))':
     dependencies:
       '@react-native/dev-middleware': 0.79.2
@@ -5731,6 +5756,8 @@ snapshots:
   '@react-native/eslint-plugin@0.79.2': {}
 
   '@react-native/gradle-plugin@0.79.2': {}
+
+  '@react-native/gradle-plugin@0.79.3': {}
 
   '@react-native/js-polyfills@0.79.2': {}
 

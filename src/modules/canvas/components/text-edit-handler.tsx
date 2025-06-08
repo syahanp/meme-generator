@@ -1,15 +1,15 @@
 import theme from '@/theme';
 import React, { FC, useCallback, useEffect, useState } from 'react';
 import { TextInput, View } from 'react-native';
+import { textConfig } from '@/constants/canvas-config';
 import { TextObject } from '../provider/canvas-provider.type';
 import { useCanvasProvider } from '../provider/canvas-provider';
 
-interface Props {
-  selectedText?: TextObject;
-}
-
-const TextEditHandler: FC<Props> = ({ selectedText }) => {
+const TextEditHandler: FC = () => {
   const { selected, editingTextById, updateObject } = useCanvasProvider();
+  const selectedText =
+    selected.type === 'text' ? (selected.spec as TextObject) : undefined;
+
   const [localValue, setLocalValue] = useState(selectedText?.value);
 
   // update value directly to provider
@@ -76,7 +76,7 @@ const TextEditHandler: FC<Props> = ({ selectedText }) => {
           lineHeight: 26,
           borderColor: theme.colors.blue[400],
           height: selectedText.height || 'auto',
-          width: selectedText.width,
+          width: selectedText.width + textConfig.widthPadding,
           color: selectedText.color,
           fontSize: selectedText.fontSize,
           fontFamily: (() => {

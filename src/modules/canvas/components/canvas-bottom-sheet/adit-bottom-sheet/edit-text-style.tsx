@@ -16,10 +16,22 @@ const EditTextStyle = () => {
 
   return (
     <>
-      <EditFontFamily key={selected.id} selectedText={selectedTextObject} />
-      <EditFontWeight key={selected.id} selectedText={selectedTextObject} />
-      <EditColor key={selected.id} selectedText={selectedTextObject} />
-      <EditFontSize key={selected.id} selectedText={selectedTextObject} />
+      <EditFontFamily
+        key={`ff-${selected.id}`}
+        selectedText={selectedTextObject}
+      />
+      <EditFontWeight
+        key={`fw-${selected.id}`}
+        selectedText={selectedTextObject}
+      />
+      <EditColor
+        key={`color-${selected.id}`}
+        selectedText={selectedTextObject}
+      />
+      <EditFontSize
+        key={`fs-${selected.id}`}
+        selectedText={selectedTextObject}
+      />
     </>
   );
 };

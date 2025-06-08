@@ -10,7 +10,7 @@ import CanvasTemplate from '../canvas-template';
 import TextEditHandler from '../text-edit-handler';
 import ObjectDragHandler from '../object-drag-handler';
 import ImageItem from '../canvas-objects/image-item';
-import { TextObject } from '../../provider/canvas-provider.type';
+import SnapIndicators from '../canvas-objects/snap-indicators';
 
 const { width, height } = Dimensions.get('window');
 
@@ -26,6 +26,9 @@ const CanvasView = () => {
     translationY,
     selectedX,
     selectedY,
+    horizontalSnapOpacity,
+    verticalSnapOpacity,
+    sharedSelectedId,
   } = useCanvasGesture();
 
   const [texts, images] = getCanvasObjects('all');
@@ -45,7 +48,6 @@ const CanvasView = () => {
           <CanvasTemplate template={route.params?.template} />
 
           {texts.map(textObj => {
-            const isSelected = selected.id === textObj.id;
             const isEditing = (() => {
               if (!editingTextById || !selected.id) return false;
               return editingTextById === textObj.id;
@@ -53,40 +55,41 @@ const CanvasView = () => {
 
             return (
               <TextItem
-                key={`${textObj.id}-${textObj.x}-${textObj.y}`}
+                key={textObj.id}
                 {...textObj}
-                isSelected={isSelected}
                 isEditing={isEditing}
-                sharedX={isSelected ? selectedX : undefined}
-                sharedY={isSelected ? selectedY : undefined}
+                sharedX={selectedX}
+                sharedY={selectedY}
+                sharedSelectedId={sharedSelectedId}
               />
             );
           })}
 
-          {images.map(imgObj => {
-            const isSelected = selected.id === imgObj.id;
+          {images.map(imgObj => (
+            <ImageItem
+              key={imgObj.id}
+              {...imgObj}
+              sharedX={selectedX}
+              sharedY={selectedY}
+              sharedSelectedId={sharedSelectedId}
+            />
+          ))}
 
-            return (
-              <ImageItem
-                key={`${imgObj.id}-${imgObj.x}-${imgObj.y}`}
-                {...imgObj}
-                isSelected={isSelected}
-                sharedX={isSelected ? selectedX : undefined}
-                sharedY={isSelected ? selectedY : undefined}
-              />
-            );
-          })}
+          <SnapIndicators
+            horizontalSnapOpacity={horizontalSnapOpacity}
+            verticalSnapOpacity={verticalSnapOpacity}
+          />
         </Canvas>
 
         {/* Text edit handler */}
-        <TextEditHandler
-          selectedText={
-            selected.type === 'text' ? (selected.spec as TextObject) : undefined
-          }
-        />
+        <TextEditHandler />
 
         {/* Object drag handler */}
-        <ObjectDragHandler objectDragGesture={objectDragGesture} />
+        <ObjectDragHandler
+          objectDragGesture={objectDragGesture}
+          selectedX={selectedX}
+          selectedY={selectedY}
+        />
       </Animated.View>
     </GestureDetector>
   );

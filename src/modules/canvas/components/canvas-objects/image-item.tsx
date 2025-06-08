@@ -1,25 +1,30 @@
 import { Image, Rect, useImage } from '@shopify/react-native-skia';
-import React, { FC, useMemo } from 'react';
-import { SharedValue, useSharedValue } from 'react-native-reanimated';
+import React, { FC, useEffect } from 'react';
+import {
+  SharedValue,
+  useDerivedValue,
+  useSharedValue,
+} from 'react-native-reanimated';
 import theme from '@/theme';
 import { ImageObject } from '../../provider/canvas-provider.type';
 
 type Props = ImageObject & {
-  isSelected: boolean;
-  sharedX?: SharedValue<number>;
-  sharedY?: SharedValue<number>;
+  sharedSelectedId: SharedValue<string>;
+  sharedX: SharedValue<number>;
+  sharedY: SharedValue<number>;
 };
 
 const ImageItem: FC<Props> = ({
+  id,
   x,
   y,
   width,
   height,
-  isSelected,
   url,
   sharedX,
   sharedY,
   opacity,
+  sharedSelectedId,
 }) => {
   const img = useImage(url);
 
@@ -27,15 +32,21 @@ const ImageItem: FC<Props> = ({
   const translationX = useSharedValue(x);
   const translationY = useSharedValue(y);
 
-  // if shared value is provided, use it
-  const positionX = useMemo(
-    () => sharedX || translationX,
-    [sharedX, translationX],
-  );
-  const positionY = useMemo(
-    () => sharedY || translationY,
-    [sharedY, translationY],
-  );
+  useEffect(() => {
+    translationX.value = x;
+    translationY.value = y;
+  }, [x, y, translationX, translationY]);
+
+  const isSelected = useDerivedValue(() => {
+    return sharedSelectedId.value === id;
+  }).value;
+
+  const positionX = useDerivedValue(() => {
+    return sharedSelectedId.value === id ? sharedX.value : translationX.value;
+  });
+  const positionY = useDerivedValue(() => {
+    return sharedSelectedId.value === id ? sharedY.value : translationY.value;
+  });
 
   return (
     <>

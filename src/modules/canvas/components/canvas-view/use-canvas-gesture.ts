@@ -1,9 +1,11 @@
+import { canvasSpec, SNAP_TOLERANCE } from '@/constants/canvas-config';
 import { useCanvasProvider } from '@/modules/canvas/provider/canvas-provider';
 import { Dimensions } from 'react-native';
 import { Gesture } from 'react-native-gesture-handler';
-import { useSharedValue, clamp } from 'react-native-reanimated';
+import { useSharedValue, clamp, withTiming } from 'react-native-reanimated';
 
 const window = Dimensions.get('window');
+const { canvasCenterX, canvasCenterY } = canvasSpec;
 
 const useCanvasGesture = () => {
   const {
@@ -21,9 +23,14 @@ const useCanvasGesture = () => {
   const prevTranslationX = useSharedValue(0);
   const prevTranslationY = useSharedValue(0);
 
-  // Object Property
+  // object property
   const selectedX = useSharedValue(0);
   const selectedY = useSharedValue(0);
+  const sharedSelectedId = useSharedValue('');
+
+  // snap indicators
+  const verticalSnapOpacity = useSharedValue(0);
+  const horizontalSnapOpacity = useSharedValue(0);
 
   // for zoom in/out
   const pinchGesture = Gesture.Pinch().onUpdate(e => {
@@ -59,6 +66,7 @@ const useCanvasGesture = () => {
     })
     .runOnJS(true);
 
+  // select object
   const singleTapToSelect = Gesture.Tap()
     .onEnd(event => {
       const [texts, images] = getCanvasObjects('all');
@@ -76,8 +84,10 @@ const useCanvasGesture = () => {
       if (hit) {
         selectedX.value = hit.x;
         selectedY.value = hit.y;
+        sharedSelectedId.value = hit.id;
         selectObject(hit.id, hit.type);
       } else {
+        sharedSelectedId.value = '';
         selectTextToEdit('');
         selectObject('', 'text');
       }
@@ -95,9 +105,7 @@ const useCanvasGesture = () => {
     })
     .runOnJS(true);
 
-  /**
-   * Object dragging after selection
-   */
+  // drag object
   const objectDragGesture = Gesture.Pan()
     .minDistance(1)
     .onStart(() => {
@@ -110,23 +118,59 @@ const useCanvasGesture = () => {
     .onUpdate(e => {
       if (!selected.id) return;
 
-      const maxTranslateX = window.width;
-      const maxTranslateY = window.height;
+      const objectWidth = selected.spec?.width || 0;
+      const objectHeight = selected.spec?.height || 0;
+
+      // prevent dragging out of canvas
+      const maxDragX = window.width - objectWidth;
+      const maxDragY = window.height - objectHeight;
+
+      const newX = (selected.spec?.x || 0) + e.translationX;
+      const newY = (selected.spec?.y || 0) + e.translationY;
+
+      const objectCenterX = newX + objectWidth / 2;
+      const objectCenterY = newY + objectHeight / 2;
+
+      // initially assign position to snapped position
+      let snappedX = newX;
+      let snappedY = newY;
+
+      // detect dragged object is snapped
+      const isSnappedX =
+        Math.abs(objectCenterX - canvasCenterX) < SNAP_TOLERANCE;
+      const isSnappedY =
+        Math.abs(objectCenterY - canvasCenterY) < SNAP_TOLERANCE;
+
+      // if snapped, force dragged object to snap to center
+      if (isSnappedX) {
+        snappedX = canvasCenterX - objectWidth / 2;
+      }
+      if (isSnappedY) {
+        snappedY = canvasCenterY - objectHeight / 2;
+      }
+
+      // withTiming is used to fade in/out snap indicators
+      if (isSnappedX) {
+        verticalSnapOpacity.value = withTiming(1, { duration: 150 });
+      } else {
+        verticalSnapOpacity.value = withTiming(0, { duration: 150 });
+      }
+
+      if (isSnappedY) {
+        horizontalSnapOpacity.value = withTiming(1, { duration: 150 });
+      } else {
+        horizontalSnapOpacity.value = withTiming(0, { duration: 150 });
+      }
 
       // prevent object drag going out of bounds
-      selectedX.value = clamp(
-        (selected.spec?.x || 0) + e.translationX,
-        0,
-        maxTranslateX,
-      );
-      selectedY.value = clamp(
-        (selected.spec?.y || 0) + e.translationY,
-        0,
-        maxTranslateY,
-      );
+      selectedX.value = clamp(snappedX, 0, maxDragX);
+      selectedY.value = clamp(snappedY, 0, maxDragY);
     })
     .onEnd(() => {
       if (!selected.id) return;
+
+      verticalSnapOpacity.value = withTiming(0, { duration: 150 });
+      horizontalSnapOpacity.value = withTiming(0, { duration: 150 });
 
       updateObject({
         id: selected.id,
@@ -154,6 +198,9 @@ const useCanvasGesture = () => {
     translationY,
     selectedX,
     selectedY,
+    verticalSnapOpacity,
+    horizontalSnapOpacity,
+    sharedSelectedId,
   };
 };
 
