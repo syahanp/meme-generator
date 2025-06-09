@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { generateUUID } from '@/helper/common';
+import { generateUUID, getCoordRelativeToCanvas } from '@/helper/common';
 import { produce } from 'immer';
 import { canvasSpec } from '@/constants/canvas-config';
 import {
@@ -23,7 +23,7 @@ const CanvasContextProvider = createContext<CanvasProviderType | undefined>(
   undefined,
 );
 
-const { canvasX, canvasY } = canvasSpec;
+const { canvasX, canvasY, canvasWidth, canvasHeight } = canvasSpec;
 
 interface Props {
   children: React.ReactNode;
@@ -138,13 +138,18 @@ export const CanvasProvider: FC<Props> = ({ children, route }) => {
    */
   const addNewText: CanvasProviderType['addNewText'] = useCallback(
     (payload, options) => {
-      const randomCoord = Math.floor(Math.random() * (100 - 10 + 1)) + 10;
+      const { x, y } = getCoordRelativeToCanvas({
+        canvasX,
+        canvasY,
+        canvasWidth,
+        canvasHeight,
+      });
 
       const initSpec: TextObject = {
         type: 'text',
         id: payload?.id || generateUUID(),
-        x: payload?.x || canvasX + randomCoord,
-        y: payload?.y || canvasY + randomCoord,
+        x: payload?.x || x,
+        y: payload?.y || y,
         width: payload?.width || 150,
         height: payload?.height || 40,
         value: payload?.value || 'Text',
@@ -161,10 +166,8 @@ export const CanvasProvider: FC<Props> = ({ children, route }) => {
       }
 
       if (options?.auto === 'edit-text') {
-        setTimeout(() => {
-          setSelectedObject({ id: initSpec.id, type: 'text' });
-          setEditingTextById(initSpec.id);
-        }, 10);
+        setSelectedObject({ id: initSpec.id, type: 'text' });
+        setEditingTextById(initSpec.id);
       }
     },
     [],
@@ -179,13 +182,18 @@ export const CanvasProvider: FC<Props> = ({ children, route }) => {
    */
   const addNewImage: CanvasProviderType['addNewImage'] = useCallback(
     (payload, options) => {
-      const randomCoord = Math.floor(Math.random() * (100 - 10 + 1)) + 10;
+      const { x, y } = getCoordRelativeToCanvas({
+        canvasX,
+        canvasY,
+        canvasWidth,
+        canvasHeight,
+      });
 
       const initSpec: ImageObject = {
         type: 'image',
         id: payload?.id || generateUUID(),
-        x: payload?.x || canvasX + randomCoord,
-        y: payload?.y || canvasY + randomCoord,
+        x: payload?.x || x,
+        y: payload?.y || y,
         width: payload?.width || 150,
         height: payload?.height || 150,
         url: payload?.url || 'https://placehold.co/150x150?text=image-error',

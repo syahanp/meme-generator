@@ -15,7 +15,7 @@ import SnapIndicators from '../canvas-objects/snap-indicators';
 const { width, height } = Dimensions.get('window');
 
 const CanvasView = () => {
-  const { getCanvasObjects, editingTextById, route, selected } =
+  const { getCanvasObjects, editingTextById, route, selected, updateObject } =
     useCanvasProvider();
 
   const {
@@ -61,6 +61,7 @@ const CanvasView = () => {
                 sharedX={selectedX}
                 sharedY={selectedY}
                 sharedSelectedId={sharedSelectedId}
+                updateObject={updateObject}
               />
             );
           })}

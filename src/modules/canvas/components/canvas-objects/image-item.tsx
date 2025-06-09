@@ -1,6 +1,7 @@
 import { Image, Rect, useImage } from '@shopify/react-native-skia';
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import {
+  runOnJS,
   SharedValue,
   useDerivedValue,
   useSharedValue,
@@ -26,6 +27,7 @@ const ImageItem: FC<Props> = ({
   opacity,
   sharedSelectedId,
 }) => {
+  const [selected, setSelected] = useState(false);
   const img = useImage(url);
 
   // default value
@@ -37,9 +39,17 @@ const ImageItem: FC<Props> = ({
     translationY.value = y;
   }, [x, y, translationX, translationY]);
 
-  const isSelected = useDerivedValue(() => {
-    return sharedSelectedId.value === id;
-  }).value;
+  /**
+   * we capture changes in UI thread to compare id. Because it's in the
+   * UI thread (worklet), we must runOnJS to access/pass to JS thread
+   */
+  useDerivedValue(() => {
+    if (sharedSelectedId.value === id) {
+      runOnJS(setSelected)(true);
+    } else {
+      runOnJS(setSelected)(false);
+    }
+  });
 
   const positionX = useDerivedValue(() => {
     return sharedSelectedId.value === id ? sharedX.value : translationX.value;
@@ -50,7 +60,7 @@ const ImageItem: FC<Props> = ({
 
   return (
     <>
-      {isSelected && (
+      {selected && (
         <Rect
           x={positionX}
           y={positionY}

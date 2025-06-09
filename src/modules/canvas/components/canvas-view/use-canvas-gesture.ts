@@ -135,13 +135,13 @@ const useCanvasGesture = () => {
       let snappedX = newX;
       let snappedY = newY;
 
-      // detect dragged object is snapped
+      // is dragged object are snapped?
       const isSnappedX =
         Math.abs(objectCenterX - canvasCenterX) < SNAP_TOLERANCE;
       const isSnappedY =
         Math.abs(objectCenterY - canvasCenterY) < SNAP_TOLERANCE;
 
-      // if snapped, force dragged object to snap to center
+      // if snapped, force dragged object to snap center
       if (isSnappedX) {
         snappedX = canvasCenterX - objectWidth / 2;
       }

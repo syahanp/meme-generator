@@ -7,7 +7,7 @@ const window = Dimensions.get('screen');
  * if object closer to the center of the canvas, it will be snapped.
  * otherwise, it can be moved freely.
  */
-export const SNAP_TOLERANCE = 15;
+export const SNAP_TOLERANCE = 10;
 
 /**
  * Text addition config
@@ -26,7 +26,7 @@ export const canvasSpec = (() => {
   const canvasX = 25;
   const canvasWidth = window.width - canvasX * 2;
   const canvasHeight = canvasWidth;
-  const canvasY = window.height / 2 - canvasWidth;
+  const canvasY = window.height / 2 - canvasHeight;
 
   const canvasCenterX = window.width / 2;
   const canvasCenterY = canvasY + canvasHeight / 2;

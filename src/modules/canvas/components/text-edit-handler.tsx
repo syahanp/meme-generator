@@ -1,11 +1,10 @@
 import theme from '@/theme';
-import React, { FC, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { TextInput, View } from 'react-native';
-import { textConfig } from '@/constants/canvas-config';
 import { TextObject } from '../provider/canvas-provider.type';
 import { useCanvasProvider } from '../provider/canvas-provider';
 
-const TextEditHandler: FC = () => {
+const TextEditHandler = () => {
   const { selected, editingTextById, updateObject } = useCanvasProvider();
   const selectedText =
     selected.type === 'text' ? (selected.spec as TextObject) : undefined;
@@ -69,16 +68,17 @@ const TextEditHandler: FC = () => {
           handleUpdateHeight(e.nativeEvent.contentSize.height);
         }} // make input height grows dynamically
         style={{
+          paddingHorizontal: 0,
           paddingVertical: 6,
-          paddingHorizontal: 8,
           borderWidth: 1,
           letterSpacing: 0.5,
           lineHeight: 26,
           borderColor: theme.colors.blue[400],
-          height: selectedText.height || 'auto',
-          width: selectedText.width + textConfig.widthPadding,
+          height: 'auto',
+          width: selectedText.width + 12,
           color: selectedText.color,
           fontSize: selectedText.fontSize,
+          fontWeight: selectedText.fontWeight,
           fontFamily: (() => {
             if (selectedText.fontFamily === 'Poppins') {
               return theme.fontFamily.poppins[selectedText.fontWeight];
