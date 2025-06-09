@@ -78,7 +78,8 @@ const TextEditHandler = () => {
           width: selectedText.width + 12,
           color: selectedText.color,
           fontSize: selectedText.fontSize,
-          fontWeight: selectedText.fontWeight,
+          fontWeight: selectedText.fontWeight === 'regular' ? 400 : 800,
+          textAlign: 'center',
           fontFamily: (() => {
             if (selectedText.fontFamily === 'Poppins') {
               return theme.fontFamily.poppins[selectedText.fontWeight];

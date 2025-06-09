@@ -7,8 +7,8 @@ export const generateUUID = (): string => {
 
 /**
  * Get random coordinate relative to canvas,
- * so X is always between canvasX and canvasX + canvasWidth
- * and Y is always between canvasY and canvasY + canvasHeight
+ * so X is always between canvasX and canvasX + (canvasWidth / 2)
+ * and Y is always between canvasY and canvasY + (canvasHeight / 2)
  */
 export const getCoordRelativeToCanvas = ({
   canvasX,
@@ -22,9 +22,13 @@ export const getCoordRelativeToCanvas = ({
   canvasHeight: number;
 }): { x: number; y: number } => {
   const randomX =
-    canvasX + Math.floor(Math.random() * (canvasWidth - 50 + 1)) + 10;
+    canvasX +
+    Math.floor(Math.random() * (canvasWidth - canvasWidth / 2 + 1)) +
+    10;
   const randomY =
-    canvasY + Math.floor(Math.random() * (canvasHeight - 50 + 1)) + 10;
+    canvasY +
+    Math.floor(Math.random() * (canvasHeight - canvasHeight / 2 + 1)) +
+    10;
 
   return { x: randomX, y: randomY };
 };

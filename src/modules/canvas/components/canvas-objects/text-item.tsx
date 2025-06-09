@@ -72,7 +72,7 @@ const TextItem: FC<TextObjectProps> = ({
     };
 
     return Skia.ParagraphBuilder.Make(
-      { textAlign: TextAlign.Left },
+      { textAlign: TextAlign.Center },
       customFontMgr,
     )
       .pushStyle(textStyle)
